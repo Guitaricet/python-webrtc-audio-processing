@@ -35,8 +35,19 @@ AudioProcessingModule::AudioProcessingModule(int aec_type, bool enable_ns, int a
         ap->echo_control_mobile()->Enable(true);
         ap->echo_control_mobile()->set_routing_mode(webrtc::EchoControlMobile::kLoudSpeakerphone);
     } else if (2 == aec_type) {
+        ap->high_pass_filter()->Enable(true);
+        //
+        ap->echo_cancellation()->enable_drift_compensation(false);
         ap->echo_cancellation()->Enable(true);
-        ap->echo_cancellation()->set_suppression_level(EchoCancellation::kLowSuppression);
+        //
+        ap->noise_reduction()->set_level(kHighSuppression);
+        ap->noise_reduction()->Enable(true);
+        //
+        ap->gain_control()->set_analog_level_limits(0, 255);
+        ap->gain_control()->set_mode(kAdaptiveAnalog);
+        ap->gain_control()->Enable(true);
+        //
+        ap->voice_detection()->Enable(true);
     } else if (3 == aec_type) {
         // AudioProcessing::Config config;
         // config.high_pass_filter.enabled = true;

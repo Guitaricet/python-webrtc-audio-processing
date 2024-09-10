@@ -39,9 +39,11 @@ AudioProcessingModule::AudioProcessingModule(int aec_type, bool enable_ns, int a
         //
         ap->echo_cancellation()->enable_drift_compensation(false);
         ap->echo_cancellation()->Enable(true);
+        ap->echo_cancellation()->set_suppression_level(EchoCancellation::kHighSuppression);
+        
         //
-        ap->noise_reduction()->set_level(EchoCancellation::kHighSuppression);
-        ap->noise_reduction()->Enable(true);
+        //ap->noise_reduction()->set_level(EchoCancellation::kHighSuppression);
+        //ap->noise_reduction()->Enable(true);
         //
         ap->gain_control()->set_analog_level_limits(0, 255);
         ap->gain_control()->set_mode(GainControl::kAdaptiveAnalog);
